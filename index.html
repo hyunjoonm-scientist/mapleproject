@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMTI (여성 골반 건강 유형 테스트) - 실전 임상 도구 V1.0</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #FFF0F0; color: #4A4A4A; line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(255,140,122,0.15); }
+        
+        #rolling-header { text-align: center; transition: opacity 0.6s ease-in-out; margin-bottom: 20px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
+        h1 { color: #FF8C7A; font-size: 22px; margin: 0 0 8px 0; word-break: keep-all; line-height: 1.3;}
+        p.subtitle { color: #888; font-size: 14px; margin: 0; word-break: keep-all; }
+        
+        .consent-box { background-color: #FFF9F9; border: 1px solid #FFDAB9; padding: 15px; border-radius: 10px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 10px; }
+        .consent-box input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; margin-top: 2px; accent-color: #FF8C7A; }
+        .consent-box label { font-size: 13px; color: #555; cursor: pointer; line-height: 1.4; }
+        .consent-box span { color: #E74C3C; font-weight: bold; }
+
+        .question-box { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #FFE4E1; }
+        .question-text { font-size: 15px; font-weight: bold; margin-bottom: 10px; word-break: keep-all; }
+        .radio-group { display: flex; gap: 15px; }
+        .radio-group label { background: #F8F8F8; padding: 10px 20px; border-radius: 10px; cursor: pointer; flex: 1; text-align: center; transition: 0.2s; border: 1px solid #EEE; }
+        .radio-group input[type="radio"] { display: none; }
+        .radio-group input[type="radio"]:checked + label { background: #FF8C7A; color: white; border-color: #FF8C7A; font-weight: bold; }
+        
+        .submit-btn { background: #FF8C7A; color: white; border: none; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 12px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(255,140,122,0.3); transition: 0.3s; }
+        .submit-btn:hover { background: #F07865; }
+
+        .reset-btn { background: #7F8C8D; color: white; border: none; padding: 12px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 12px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .reset-btn:hover { background: #95A5A6; }
+        
+        #result-section { display: none; margin-top: 30px; padding: 25px; background: #FFF5F5; border-radius: 15px; border: 2px solid #FFDAB9; }
+        .result-title { color: #E74C3C; font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 15px; }
+        .result-desc { font-size: 15px; color: #555; text-align: justify; word-break: keep-all; white-space: pre-line; }
+        
+        .emr-box { margin-top: 25px; padding: 15px; background: white; border-radius: 10px; text-align: center; border: 1px solid #FF8C7A; }
+        .emr-title { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .emr-code { font-size: 28px; font-weight: bold; color: #FF8C7A; letter-spacing: 2px; }
+
+        /* 새로운 환자 행동 유도 안내 박스 스타일 */
+        .instruction-box { margin-top: 20px; padding: 15px; background: #FFFDE7; border-radius: 10px; text-align: left; border: 1px dashed #F1C40F; font-size: 14px; color: #555; line-height: 1.5; font-weight: bold; }
+        
+        .clinic-footer { margin-top: 35px; padding-top: 20px; border-top: 1px solid #EEE; text-align: center; color: #999; font-size: 12px; line-height: 1.6; letter-spacing: -0.3px; }
+        .clinic-footer .project-name { font-weight: bold; color: #777; font-size: 13px; margin-bottom: 3px; }
+        .clinic-footer .doctor-name { font-weight: bold; color: #FF8C7A; margin-top: 3px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="rolling-header">
+        <h1 id="main-title">나의 골반 건강 MBTI는?</h1>
+        <p class="subtitle" id="sub-title">1분 만에 알아보는 내 화장실 평화 지수 🚽✨</p>
+    </div>
+
+    <form id="pmtiForm">
+        <div class="consent-box">
+            <input type="checkbox" id="irb_consent">
+            <label for="irb_consent">
+                <span>[필수]</span> 본 설문은 환자분의 진료 질 향상 및 학술 연구 목적으로 활용될 수 있으며, 모든 데이터는 누구인지 알 수 없도록 안전하게 <b>비식별화 처리</b>됩니다. 연구 목적의 데이터 활용에 동의합니다.
+            </label>
+        </div>
+
+        <div class="question-box">
+            <div class="question-text">1. 소변 줄기가 약하거나 다 본 후에도 시원하지 않은 잔뇨감이 남는다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q1_yes" name="q1" value="yes"><label for="q1_yes">그렇다</label>
+                <input type="radio" id="q1_no" name="q1" value="no" checked><label for="q1_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text">2. 소변을 시작할 때 한참 기다려야 하거나, 배에 힘을 꽉 주어야만 겨우 소변이 나온다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q2_yes" name="q2" value="yes"><label for="q2_yes">그렇다</label>
+                <input type="radio" id="q2_no" name="q2" value="no" checked><label for="q2_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text" style="color:#E74C3C;">3. 갑자기 소변이 마려워 참기 힘들거나, 화장실에 가기도 전에 찔끔 샌 적이 있다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q3_yes" name="q3" value="yes"><label for="q3_yes">그렇다</label>
+                <input type="radio" id="q3_no" name="q3" value="no" checked><label for="q3_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text">4. 대변이 딱딱하거나 토끼 똥처럼 나오며, 화장실에 오래 앉아 힘을 많이 주어야 한다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q4_yes" name="q4" value="yes"><label for="q4_yes">그렇다</label>
+                <input type="radio" id="q4_no" name="q4" value="no" checked><label for="q4_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text">5. 소변/대변 시 밑(항문/회음부)이 시원하게 안 열리고 꽉 막혀있는 듯한 뻐근함이 든다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q5_yes" name="q5" value="yes"><label for="q5_yes">그렇다</label>
+                <input type="radio" id="q5_no" name="q5" value="no" checked><label for="q5_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text">6. 최근 1년 내 방광염에 3번 이상 걸렸거나, 타 병원에서 항생제를 자주 처방받았다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q6_yes" name="q6" value="yes"><label for="q6_yes">그렇다</label>
+                <input type="radio" id="q6_no" name="q6" value="no" checked><label for="q6_no">아니다</label>
+            </div>
+        </div>
+        <div class="question-box">
+            <div class="question-text">7. 이러한 불편함을 '체질이려니', '피곤해서려니' 생각하며 병원 진료를 미루고 참아왔다.</div>
+            <div class="radio-group">
+                <input type="radio" id="q7_yes" name="q7" value="yes"><label for="q7_yes">그렇다</label>
+                <input type="radio" id="q7_no" name="q7" value="no" checked><label for="q7_no">아니다</label>
+            </div>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="calculatePMTI()">나의 결과 확인하기 🔍</button>
+    </form>
+
+    <div id="result-section">
+        <div class="result-title" id="res-title"></div>
+        <div class="result-desc" id="res-desc"></div>
+        
+        <div class="emr-box">
+            <div class="emr-title">간호사 데스크 확인용 EMR 코드</div>
+            <div class="emr-code" id="emr-code"></div>
+        </div>
+
+        <div class="instruction-box">
+            📸 [안내] 현재 화면을 스마트폰 사진으로 찍거나, 4자리 코드를 기억(또는 기록)하여 접수 데스크에 알려주시면 훨씬 빠르고 전문적인 진료 안내를 받으실 수 있습니다.
+        </div>
+        
+        <button type="button" class="reset-btn" onclick="resetForm()">🔄 새로운 검사 시작하기 (초기화)</button>
+    </div>
+
+    <div class="clinic-footer">
+        <div class="project-name">'골반 건강 MBTI (PMTI - Pelvic Muscle Type Indicator)' 프로젝트</div>
+        <div>정읍한국병원 비뇨의학과 Female Silent Obstruction Clinic</div>
+        <div class="doctor-name">- HYUN JOON MOON, MD, PhD -</div>
+    </div>
+</div>
+
+<script>
+const headers = [
+    { main: "나의 골반 건강 MBTI는?", sub: "1분 만에 알아보는 내 화장실 평화 지수 🚽✨" },
+    { main: "아무에게도 말 못 한 화장실 고군분투...", sub: "혹시 체질 탓이라고만 생각하셨나요? 조용한 구조 신호를 확인하세요." },
+    { main: "방광염 약, 이번이 대체 몇 번째인가요?", sub: "잔뇨감과 만성 변비... 진짜 원인은 따로 있을 수 있습니다. 🔍" }
+];
+let currentHeaderIndex = 0;
+setInterval(() => {
+    const headerElement = document.getElementById('rolling-header');
+    headerElement.style.opacity = 0;
+    setTimeout(() => {
+        currentHeaderIndex = (currentHeaderIndex + 1) % headers.length;
+        document.getElementById('main-title').innerText = headers[currentHeaderIndex].main;
+        document.getElementById('sub-title').innerText = headers[currentHeaderIndex].sub;
+        headerElement.style.opacity = 1;
+    }, 600);
+}, 5000);
+
+const endingComment = "\n\n가장 기초적인 소변배양검사와 혈액검사 및 X-Ray촬영, 즉석 요속검사와 간편 방광스캐너검사에 더하여, 만성환자들에겐 필수중요검사인 CT촬영 및 방광내시경 검사 등으로, 그동안 배뇨곤란으로 고통받던 많은 분들의 문제가 대부분 파악되고 있습니다.\n\n이제 본원의 전문적이며 단계적인 비뇨의학과 진료로 도움을 받게 되시기를 희망합니다.";
+
+const pmtiData = {
+    // D-Types (잔뇨/지연)
+    "DTIP": { title: "🌵 지친 사막의 선인장형", desc: "오랜 시간 참느라 고생 많으셨습니다. 잦은 방광염과 묵직한 잔뇨, 골반을 누르는 변비가 한 덩어리로 엉켜 당신을 지치게 하고 있네요. 혼자 견디지 마시고 방광스캐너 검사를 포함한 기초확인검사로 잔뇨량을 꼭 확인해 보세요." },
+    "DTIA": { title: "⚔️ 고군분투하는 전사형", desc: "많이 불편하셨을 텐데 포기하지 않고 해결책을 찾는 훌륭한 의지를 가지셨네요! 꽉 막힌 잔뇨와 변비가 방광염을 계속 부르고 있습니다. 편안한 요속검사를 포함한 기초확인검사를 통해 무거운 짐을 이제 내려놓으셔도 됩니다." },
+    "DTCP": { title: "🌋 잠자는 화산형", desc: "당장 겉으로 드러나는 염증은 없지만, 잔뇨감과 변비의 뻐근함을 참으며 골반과 방광이 조용히 지쳐가고 있습니다. 더 큰 불편이 터지기 전에 방광스캐너 검사를 포함한 기초확인검사로 막힌 숨통을 틔워주세요." },
+    "DTCA": { title: "👷‍♀️ 묵묵히 견디는 호수형", desc: "염증 없이 관리는 잘하셨지만, 시원하게 비워지지 않는 느낌 탓에 화장실에서 묵묵히 홀로 고군분투하셨군요. 방광 펌프의 힘이 떨어졌을 수 있으니 편안한 요속검사를 포함한 기초확인검사로 확인해 보세요." },
+    "DRIP": { title: "🍂 쓸쓸한 낙엽형", desc: "변비는 없는데 늘 남는 잔뇨감과 반복되는 염증... 체질 탓이라 여기며 혼자 참기엔 너무 지치는 조합입니다. 방광스캐너 검사를 포함한 기초확인검사를 통해 참는다고 해결되지 않는 구조적 문제의 원인을 찾아보세요." },
+    "DRIA": { title: "☔ 비 내리는 늪지대형", desc: "골반 긴장은 없지만, 비워지지 않고 남은 잔뇨가 자꾸만 염증을 부르고 있군요. 적극적으로 치료를 원하시니, 편안한 요속검사를 포함한 기초확인검사로 잔뇨의 원인만 정확히 짚어내면 금세 뽀송해질 거예요." },
+    "DRCP": { title: "🌫️ 안개 낀 호수형", desc: "염증이나 통증은 없지만, 늘 소변이 덜 나온 것 같은 잔뇨감이라는 안개 속에서 찝찝함을 견디고 계시네요. 익숙해지지 마세요, 방광스캐너 검사를 포함한 기초확인검사로 그 안개를 맑게 걷어내 보세요." },
+    "DRCA": { title: "🛶 노 젓는 뱃사공형", desc: "염증과 변비는 없지만 왠지 모르게 소변이 시원하지 않아 원인을 적극적으로 찾고 계시군요. 방광의 짜내는 힘이 약해졌는지, 편안한 요속검사를 포함한 기초확인검사로 확인해 시원한 물길을 열어보세요." },
+    
+    // O-Types (과민/절박뇨)
+    "OTIP": { title: "⛈️ 예고 없는 폭풍우형", desc: "갑자기 찾아오는 급한 신호에, 꽉 막힌 변비와 염증까지 겹쳐 외출조차 불안하고 힘드셨죠? 방광스캐너 검사를 포함한 기초확인검사로 상태를 점검하고, 과도하게 예민해진 방광과 골반을 편안하게 달래주어야 합니다." },
+    "OTIA": { title: "🚒 소화기 든 소방관형", desc: "참기 힘든 요절박과 염증의 불씨를 끄기 위해 적극적으로 노력 중이시네요! 편안한 기초확인검사를 통해 긴장된 골반을 부드럽게 풀면 예민해진 방광도 금세 안정을 되찾을 것입니다." },
+    "OTCP": { title: "🐢 깜짝 놀란 거북이형", desc: "염증은 없지만 툭하면 찾아오는 급한 신호와 묵직한 변비에 지쳐가시네요. 나이 탓이라며 방치하지 마시고 기초확인검사와 간단한 약물 이완으로 방광의 평화를 찾으세요." },
+    "OTCA": { title: "🧭 길 찾는 탐험가형", desc: "잔뇨나 염증은 없지만, 스스로 통제할 수 없이 예민해진 방광과 꽉 막힌 배변 때문에 불편하시군요. 기초확인검사를 바탕으로 한 섬세한 진단과 처방만으로도 화장실 걱정 없는 외출이 가능해집니다." },
+    "ORIP": { title: "🌧️ 슬픈 워터파크형", desc: "변비는 없는데 시도 때도 없이 열리는 수문과 잦은 염증 때문에 일상이 많이 불안하셨죠. 편안한 요속검사를 포함한 기초확인검사로 현재 상태를 꼭 점검해야 합니다." },
+    "ORIA": { title: "☂️ 비옷 입은 여행자형", desc: "갑작스러운 신호에 애태우면서도 씩씩하게 원인을 찾고 계시네요. 방광을 과민하게 자극하는 염증의 고리를 찾아내어, 기초확인검사를 통해 전문의가 확실하게 끊어드릴게요." },
+    "ORCP": { title: "🐇 깜짝 놀란 토끼형", desc: "염증도 변비도 없고 훌륭하지만, 방광 혼자 깜짝깜짝 놀라 급한 신호를 보내고 있네요! 원래 그런 체질이 아닙니다. 기초확인검사 후 부드러운 치료로 금방 일상의 여유를 찾을 수 있어요." },
+    "ORCA": { title: "🏃‍♀️ 준비된 스프린터형", desc: "배뇨, 배변 관리 모두 훌륭한데 유독 예민한 방광 하나가 일상을 방해하고 있군요! 편안한 요속검사를 포함한 기초확인검사로 원인을 정확히 파악하여 자유를 되찾으세요." },
+
+    // F-Types (원활/기타)
+    "FTIP": { title: "🌵 인내의 선인장형", desc: "소변 줄기는 나쁘지 않지만 묵직한 변비와 잦은 방광염을 꾹꾹 참으며 고생하시네요. 참는다고 낫지 않습니다. 방광스캐너 검사를 포함한 기초확인검사로 골반의 구조 신호에 귀 기울여주세요." },
+    "FTIA": { title: "🌊 성난 파도형", desc: "시원한 배뇨에도 불구하고 꽉 뭉친 골반과 변비가 자꾸만 방광염을 부르고 있습니다. 기초확인검사로 상태 파악 후 골반의 긴장만 부드럽게 풀어주어도 염증이 잠잠해집니다." },
+    "FTCP": { title: "🧘‍♀️ 인내의 수행자형", desc: "다행히 염증 없이 잘 넘기고 있지만, 꽉 막힌 골반과 변비의 뻐근함을 마치 숙명처럼 견디고 계시네요. 기초확인검사 후 골반 근육을 이완하는 훈련으로 일상이 가벼워집니다." },
+    "FTCA": { title: "🧗‍♀️ 외로운 암벽 등반가형", desc: "소변은 잘 나오는데 골반 긴장과 꽉 막힌 변비 때문에 화장실 가는 시간이 괴로우셨죠? 기초확인검사를 통해 올바른 이완법과 원인 교정을 상의해 보세요." },
+    "FRIP": { title: "🥀 조용한 먹구름형", desc: "배뇨와 배변 모두 원활한데 왜 자꾸 방광염만 찾아올까요? 그저 피곤해서려니 하고 참지 마세요. 기초확인검사를 통해 보이지 않는 숨은 원인을 찾으면 일상에 햇살이 비칠 거예요." },
+    "FRIA": { title: "🔍 원인을 찾는 탐정형", desc: "골반 상태는 매우 훌륭한데 방광염만 반복되다니 억울하셨죠? 편안한 요속검사를 포함한 기초확인검사로 면역 저하나 환경적 요인을 속 시원히 찾아보아요." },
+    "FRCP": { title: "🦥 느긋한 평화주의자형", desc: "현재 아주 건강하고 평화로운 상태지만, 내 몸이 가끔 보내는 작은 신호들에 조금 무심하시네요. 지금의 맑은 오아시스를 오래 지키기 위해 기초확인검사로 체크해 보세요!" },
+    "FRCA": { title: "🦦 맑게 흐르는 오아시스형", desc: "최고입니다! 가장 완벽하고 건강한 골반 건강 상태를 유지하고 계십니다. 혹시 모를 미세한 변화를 위해 기초확인검사만 가볍게 받아보시는 것도 좋습니다." }
+};
+
+function calculatePMTI(isAutoUpdate = false) {
+    const consentChecked = document.getElementById('irb_consent').checked;
+    const resultSection = document.getElementById('result-section');
+
+    if (!consentChecked) {
+        if (!isAutoUpdate) {
+            alert("테스트 결과를 확인하려면 [연구 목적 데이터 활용 동의]가 필수입니다. 체크박스를 확인해 주세요.");
+        } else {
+            resultSection.style.display = 'none';
+        }
+        return;
+    }
+
+    const q1 = document.querySelector('input[name="q1"]:checked').value === 'yes';
+    const q2 = document.querySelector('input[name="q2"]:checked').value === 'yes';
+    const q3 = document.querySelector('input[name="q3"]:checked').value === 'yes';
+    const q4 = document.querySelector('input[name="q4"]:checked').value === 'yes';
+    const q5 = document.querySelector('input[name="q5"]:checked').value === 'yes';
+    const q6 = document.querySelector('input[name="q6"]:checked').value === 'yes';
+    const q7 = document.querySelector('input[name="q7"]:checked').value === 'yes';
+
+    // 최우선 순위: 잔뇨(D) > 과민/절박(O) > 원활(F)
+    const pos1 = (q1 || q2) ? 'D' : (q3 ? 'O' : 'F');
+    const pos2 = (q4 || q5) ? 'T' : 'R';
+    const pos3 = q6 ? 'I' : 'C';
+    const pos4 = q7 ? 'P' : 'A';
+    const resultType = pos1 + pos2 + pos3 + pos4;
+
+    const result = pmtiData[resultType] || { title: "🔍 나를 알아가는 탐험가형", desc: "골반 건강 신호를 분석했습니다." };
+
+    document.getElementById('res-title').innerText = result.title;
+    document.getElementById('res-desc').innerText = result.desc + endingComment;
+    document.getElementById('emr-code').innerText = "#" + resultType;
+    
+    resultSection.style.display = 'block';
+    
+    if (!isAutoUpdate) {
+        resultSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// 실시간 자동 업데이트 리스너
+document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', () => {
+        if (document.getElementById('result-section').style.display === 'block') {
+            calculatePMTI(true);
+        }
+    });
+});
+
+// 폼 초기화 함수
+function resetForm() {
+    document.getElementById('pmtiForm').reset();
+    document.getElementById('result-section').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
