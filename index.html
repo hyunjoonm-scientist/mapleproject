@@ -1,9 +1,13 @@
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMTI (여성 골반 건강 유형 테스트) - 실전 임상 도구 V1.0</title>
+    <title>PMTI (여성 골반 건강 유형 테스트) - 실전 임상 도구 V2.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Malgun Gothic', sans-serif; background-color: #FFF0F0; color: #4A4A4A; line-height: 1.6; margin: 0; padding: 20px; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(255,140,122,0.15); }
@@ -127,14 +131,100 @@
         <div class="instruction-box">
             📸 [안내] 현재 화면을 스마트폰 사진으로 찍거나, 4자리 코드를 기억(또는 기록)하여 접수 데스크에 알려주시면 훨씬 빠르고 전문적인 진료 안내를 받으실 수 있습니다.
         </div>
+
+        <!-- ====== SNS 공유 카드 영역 ====== -->
+        <div id="share-card-section" style="margin-top:28px;">
+            <div style="text-align:center; font-size:13px; color:#888; margin-bottom:12px; font-weight:bold;">
+                📤 나의 PMTI 결과 카드 — 친구에게 공유해보세요!
+            </div>
+
+            <!-- 카드 본체 -->
+            <div id="pmti-share-card" style="
+                border-radius:22px;
+                padding:28px 24px 20px;
+                position:relative;
+                overflow:hidden;
+                color:#fff;
+                min-height:380px;
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
+                transition: background 0.4s;
+            ">
+                <!-- 배경 장식 원 -->
+                <div style="position:absolute;width:240px;height:240px;border-radius:50%;top:-70px;right:-70px;background:rgba(255,255,255,0.08);pointer-events:none;"></div>
+                <div style="position:absolute;width:140px;height:140px;border-radius:50%;bottom:-45px;left:-35px;background:rgba(255,255,255,0.06);pointer-events:none;"></div>
+
+                <!-- 이모지 -->
+                <div id="sc-emoji" style="position:absolute;right:22px;top:22px;font-size:64px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.2));z-index:2;"></div>
+
+                <!-- 상단 헤더 -->
+                <div style="position:relative;z-index:1;">
+                    <div style="font-size:10px;letter-spacing:.12em;opacity:.65;text-transform:uppercase;margin-bottom:6px;">PMTI · Pelvic Muscle Type Indicator</div>
+                    <div id="sc-code" style="font-size:52px;font-weight:900;letter-spacing:.04em;line-height:1;margin-bottom:2px;font-family:'Black Han Sans',serif;"></div>
+                    <div id="sc-name" style="font-size:15px;font-weight:700;opacity:.92;margin-bottom:4px;"></div>
+                    <div id="sc-sub" style="font-size:12px;opacity:.7;line-height:1.5;"></div>
+                </div>
+
+                <!-- 골반 건강 프로파일 바 -->
+                <div style="position:relative;z-index:1;margin-top:18px;">
+                    <div style="font-size:10px;opacity:.6;margin-bottom:7px;letter-spacing:.06em;">나의 골반 건강 프로파일</div>
+                    <div id="sc-bars"></div>
+                </div>
+
+                <!-- 의학 코멘트 -->
+                <div style="position:relative;z-index:1;margin-top:14px;background:rgba(255,255,255,0.13);border-radius:10px;padding:11px 13px;font-size:11px;line-height:1.6;border-left:3px solid rgba(255,255,255,0.45);">
+                    <span style="display:block;font-size:10px;opacity:.6;margin-bottom:3px;letter-spacing:.08em;">🏥 의학적 안내</span>
+                    <span id="sc-med"></span>
+                </div>
+
+                <!-- 하단 -->
+                <div style="position:relative;z-index:1;margin-top:16px;">
+                    <div id="sc-cta" onclick="copyShareLink()" style="
+                        background:rgba(255,255,255,0.15);
+                        border:1px solid rgba(255,255,255,0.3);
+                        border-radius:9px;padding:9px 13px;
+                        font-size:12px;font-weight:700;
+                        display:flex;align-items:center;justify-content:space-between;
+                        cursor:pointer;color:#fff;margin-bottom:8px;
+                    ">
+                        <span>👯 친구 유형도 궁금하다면? 링크 공유하기</span>
+                        <span>→</span>
+                    </div>
+                    <div style="font-size:10px;opacity:.5;text-align:center;">
+                        <!--정읍한국병원--> 비뇨의학과 · Pelvic Peace Project · © 2026 HYUN JOON MOON MD PhD
+                    </div>
+                </div>
+            </div>
+
+            <!-- 공유 버튼 3종 -->
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                <button onclick="copyCardText()" style="
+                    flex:1;padding:11px 6px;border-radius:10px;border:1px solid #ddd;
+                    background:#fff;color:#333;font-size:13px;font-weight:700;
+                    cursor:pointer;font-family:'Malgun Gothic',sans-serif;
+                ">📋 텍스트 복사</button>
+                <button onclick="shareKakao()" style="
+                    flex:1;padding:11px 6px;border-radius:10px;border:none;
+                    background:#FEE500;color:#3C1E1E;font-size:13px;font-weight:700;
+                    cursor:pointer;font-family:'Malgun Gothic',sans-serif;
+                ">💬 카카오 공유</button>
+                <button onclick="copyShareLink()" style="
+                    flex:1;padding:11px 6px;border-radius:10px;border:1px solid #FF8C7A;
+                    background:#FFF0EE;color:#C0392B;font-size:13px;font-weight:700;
+                    cursor:pointer;font-family:'Malgun Gothic',sans-serif;
+                ">🔗 링크 복사</button>
+            </div>
+        </div>
+        <!-- ====== 공유 카드 끝 ====== -->
         
-        <button type="button" class="reset-btn" onclick="resetForm()">🔄 새로운 검사 시작하기 (초기화)</button>
+        <button type="button" class="reset-btn" onclick="resetForm()" style="margin-top:20px;">🔄 새로운 검사 시작하기 (초기화)</button>
     </div>
 
     <div class="clinic-footer">
         <div class="project-name">'골반 건강 MBTI (PMTI - Pelvic Muscle Type Indicator)' Maple 프로젝트</div>
-        <div>정읍한국병원 비뇨의학과 Female Silent Obstruction Clinic</div>
-        <div class="doctor-name">- HYUN JOON MOON, MD, PhD -</div>
+        <div><!--정읍한국병원--> 비뇨의학과 Pelvic Peace Project</div>
+        <div class="doctor-name">- © 2026 HYUN JOON MOON, MD, PhD -</div>
     </div>
 </div>
 
@@ -190,6 +280,94 @@ const pmtiData = {
     "FRCA": { title: "🦦 맑게 흐르는 오아시스형", desc: "최고입니다! 가장 완벽하고 건강한 골반 건강 상태를 유지하고 계십니다. 혹시 모를 미세한 변화를 위해 기초확인검사만 가볍게 받아보시는 것도 좋습니다." }
 };
 
+/* ===== 공유 카드 데이터 ===== */
+const cardData = {
+    DTIP:{emoji:"🌵",name:"지친 사막의 선인장형",sub:"잔뇨 + 변비 + 방광염 + 참아온 시간",grad:["#C0392B","#922B21"],bars:{배뇨지연:88,골반긴장:82,감염위험:90,자각도:35},med:"잔뇨감과 만성 변비, 반복 방광염이 한 덩어리로 얽혀 있습니다. 방광스캐너 검사로 잔뇨량을 꼭 확인하세요."},
+    DTIA:{emoji:"⚔️",name:"고군분투하는 전사형",sub:"잔뇨 + 변비 + 방광염 · 적극 해결 의지",grad:["#B7471B","#8E3614"],bars:{배뇨지연:85,골반긴장:80,감염위험:88,자각도:90},med:"꽉 막힌 잔뇨와 변비가 방광염을 부릅니다. 요속검사와 기초확인검사로 무거운 짐을 내려놓으세요."},
+    DTCP:{emoji:"🌋",name:"잠자는 화산형",sub:"잔뇨 + 변비 · 염증 없음 · 참는 중",grad:["#A04000","#784212"],bars:{배뇨지연:82,골반긴장:85,감염위험:30,자각도:28},med:"겉으로 염증이 없어도 골반과 방광이 조용히 지쳐갑니다. 방광스캐너 검사로 먼저 확인하세요."},
+    DTCA:{emoji:"👷‍♀️",name:"묵묵히 견디는 호수형",sub:"잔뇨 + 변비 · 염증 없음 · 능동 관리",grad:["#1A5276","#154360"],bars:{배뇨지연:80,골반긴장:82,감염위험:22,자각도:88},med:"방광 펌프의 힘이 떨어졌을 수 있습니다. 요속검사로 확인해 보세요."},
+    DRIP:{emoji:"🍂",name:"쓸쓸한 낙엽형",sub:"잔뇨 + 방광염 · 변비 없음 · 참는 중",grad:["#7D6608","#5D4E00"],bars:{배뇨지연:78,골반긴장:35,감염위험:85,자각도:30},med:"변비 없이도 남는 잔뇨와 반복 염증, 체질 탓이 아닙니다. 방광스캐너 검사로 원인을 찾으세요."},
+    DRIA:{emoji:"☔",name:"비 내리는 늪지대형",sub:"잔뇨 + 방광염 · 변비 없음 · 능동 해결",grad:["#1B4F72","#154360"],bars:{배뇨지연:76,골반긴장:30,감염위험:82,자각도:92},med:"잔뇨가 세균 배양액이 되고 있습니다. 요속검사로 원인을 정확히 짚어내면 금세 뽀송해집니다."},
+    DRCP:{emoji:"🌫️",name:"안개 낀 호수형",sub:"잔뇨 · 변비·염증 없음 · 찝찝함 지속",grad:["#2E4057","#1C2B3A"],bars:{배뇨지연:72,골반긴장:28,감염위험:20,자각도:25},med:"늘 소변이 덜 나온 것 같은 찝찝함, 익숙해지지 마세요. 방광스캐너 검사로 안개를 걷어내세요."},
+    DRCA:{emoji:"🛶",name:"노 젓는 뱃사공형",sub:"잔뇨 · 변비·염증 없음 · 적극 원인 탐색",grad:["#1E4D6B","#163A52"],bars:{배뇨지연:70,골반긴장:25,감염위험:18,자각도:90},med:"방광 짜내는 힘이 약해졌는지 요속검사로 확인해 시원한 물길을 열어보세요."},
+    OTIP:{emoji:"⛈️",name:"예고 없는 폭풍우형",sub:"절박뇨 + 변비 + 방광염 + 참아온 시간",grad:["#6C3483","#512E5F"],bars:{배뇨절박:90,골반긴장:80,감염위험:88,자각도:32},med:"갑작스러운 신호에 변비·염증까지 겹쳐 외출이 불안하셨죠. 방광스캐너 검사로 확인하세요."},
+    OTIA:{emoji:"🚒",name:"소화기 든 소방관형",sub:"절박뇨 + 변비 + 방광염 · 적극 해결",grad:["#C0392B","#922B21"],bars:{배뇨절박:88,골반긴장:78,감염위험:85,자각도:92},med:"긴장된 골반을 부드럽게 풀면 예민해진 방광도 안정됩니다. 기초확인검사로 시작하세요."},
+    OTCP:{emoji:"🐢",name:"깜짝 놀란 거북이형",sub:"절박뇨 + 변비 · 염증 없음 · 참는 중",grad:["#0E6655","#0B5345"],bars:{배뇨절박:84,골반긴장:76,감염위험:22,자각도:28},med:"나이 탓이라 방치하지 마세요. 기초확인검사와 약물 이완으로 방광의 평화를 찾으세요."},
+    OTCA:{emoji:"🧭",name:"길 찾는 탐험가형",sub:"절박뇨 + 변비 · 염증 없음 · 능동 탐색",grad:["#117A65","#0E6655"],bars:{배뇨절박:80,골반긴장:74,감염위험:18,자각도:90},med:"섬세한 진단과 처방만으로도 화장실 걱정 없는 외출이 가능해집니다."},
+    ORIP:{emoji:"🌧️",name:"슬픈 워터파크형",sub:"절박뇨 + 방광염 · 변비 없음 · 참는 중",grad:["#1F618D","#154360"],bars:{배뇨절박:85,골반긴장:30,감염위험:82,자각도:28},med:"시도 때도 없는 절박뇨와 잦은 염증. 요속검사를 포함한 기초확인검사를 꼭 받으세요."},
+    ORIA:{emoji:"☂️",name:"비옷 입은 여행자형",sub:"절박뇨 + 방광염 · 변비 없음 · 능동 해결",grad:["#2471A3","#1A5276"],bars:{배뇨절박:82,골반긴장:28,감염위험:80,자각도:90},med:"방광을 자극하는 염증의 고리를 전문의가 끊어드립니다. 기초확인검사로 시작하세요."},
+    ORCP:{emoji:"🐇",name:"깜짝 놀란 토끼형",sub:"절박뇨 · 변비·염증 없음 · 참는 중",grad:["#884EA0","#6C3483"],bars:{배뇨절박:78,골반긴장:25,감염위험:15,자각도:25},med:"원래 그런 체질이 아닙니다. 기초확인검사 후 부드러운 치료로 일상의 여유를 되찾으세요."},
+    ORCA:{emoji:"🏃‍♀️",name:"준비된 스프린터형",sub:"절박뇨 · 변비·염증 없음 · 능동 탐색",grad:["#7D3C98","#6C3483"],bars:{배뇨절박:75,골반긴장:22,감염위험:12,자각도:92},med:"예민한 방광 하나가 일상을 방해합니다. 요속검사로 원인을 정확히 파악해 자유를 되찾으세요."},
+    FTIP:{emoji:"🌵",name:"인내의 선인장형",sub:"변비 + 방광염 · 배뇨 원활 · 참는 중",grad:["#B7770D","#9A6309"],bars:{배뇨원활:85,골반긴장:78,감염위험:85,자각도:30},med:"소변 줄기는 괜찮지만 변비와 방광염을 참고 계시네요. 방광스캐너 검사로 골반 신호를 확인하세요."},
+    FTIA:{emoji:"🌊",name:"성난 파도형",sub:"변비 + 방광염 · 배뇨 원활 · 능동 해결",grad:["#1A5276","#117A65"],bars:{배뇨원활:88,골반긴장:75,감염위험:82,자각도:90},med:"골반 긴장만 부드럽게 풀어주어도 방광염이 잠잠해집니다. 기초확인검사로 시작하세요."},
+    FTCP:{emoji:"🧘‍♀️",name:"인내의 수행자형",sub:"변비 · 배뇨 원활 · 염증 없음 · 참는 중",grad:["#1E8449","#196F3D"],bars:{배뇨원활:90,골반긴장:72,감염위험:18,자각도:25},med:"변비의 뻐근함을 숙명처럼 견디고 계시네요. 골반 근육 이완 훈련으로 일상이 가벼워집니다."},
+    FTCA:{emoji:"🧗‍♀️",name:"외로운 암벽 등반가형",sub:"변비 · 배뇨 원활 · 염증 없음 · 능동 탐색",grad:["#1D6A31","#165A29"],bars:{배뇨원활:92,골반긴장:70,감염위험:15,자각도:88},med:"골반 긴장과 변비 때문에 화장실이 괴로우셨죠. 기초확인검사로 올바른 이완법을 상의하세요."},
+    FRIP:{emoji:"🥀",name:"조용한 먹구름형",sub:"방광염 반복 · 배뇨 원활 · 변비 없음 · 참는 중",grad:["#922B21","#7B241C"],bars:{배뇨원활:92,골반긴장:20,감염위험:88,자각도:28},med:"배뇨·배변은 원활한데 방광염만 반복됩니다. 기초확인검사로 숨은 원인을 찾아보세요."},
+    FRIA:{emoji:"🔍",name:"원인을 찾는 탐정형",sub:"방광염 반복 · 배뇨 원활 · 변비 없음 · 능동 탐색",grad:["#1B4F72","#154360"],bars:{배뇨원활:94,골반긴장:18,감염위험:85,자각도:94},med:"골반 상태는 훌륭한데 방광염만 반복됩니다. 요속검사로 면역·환경 요인을 찾아보세요."},
+    FRCP:{emoji:"🦥",name:"느긋한 평화주의자형",sub:"대부분 건강 · 작은 신호에 무심 · 참는 중",grad:["#1E8449","#27AE60"],bars:{배뇨원활:95,골반긴장:15,감염위험:12,자각도:20},med:"지금의 맑은 오아시스를 오래 지키기 위해 기초확인검사로 가볍게 체크해 보세요."},
+    FRCA:{emoji:"🦦",name:"맑게 흐르는 오아시스형",sub:"최적 골반 건강 유지 중 🎉",grad:["#0B7A4F","#086A42"],bars:{배뇨원활:98,골반긴장:10,감염위험:8,자각도:96},med:"가장 완벽하고 건강한 골반 건강 상태입니다! 미세한 변화를 위해 기초확인검사도 가볍게 받아보세요."}
+};
+
+const SITE_URL = "https://pmti.pelvicpeace.kr";
+
+/* 공유 카드 렌더 함수 */
+function renderShareCard(typeCode) {
+    const d = cardData[typeCode];
+    if (!d) return;
+
+    const card = document.getElementById('pmti-share-card');
+    card.style.background = `linear-gradient(135deg, ${d.grad[0]}, ${d.grad[1]})`;
+    card.style.boxShadow = `0 14px 40px ${d.grad[0]}55`;
+
+    document.getElementById('sc-emoji').textContent = d.emoji;
+    document.getElementById('sc-code').textContent = typeCode;
+    document.getElementById('sc-name').textContent = d.name;
+    document.getElementById('sc-sub').textContent = d.sub;
+    document.getElementById('sc-med').textContent = d.med;
+
+    const barsEl = document.getElementById('sc-bars');
+    barsEl.innerHTML = '';
+    Object.entries(d.bars).forEach(([k, v]) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:7px;margin-bottom:5px;';
+        row.innerHTML = `
+            <span style="font-size:10px;width:44px;opacity:.8;text-align:right;flex-shrink:0;">${k}</span>
+            <div style="flex:1;height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;">
+                <div class="sc-bar-fill" style="height:100%;border-radius:3px;background:rgba(255,255,255,.85);width:0%;transition:width .8s cubic-bezier(.4,0,.2,1);" data-val="${v}"></div>
+            </div>
+            <span style="font-size:10px;width:24px;opacity:.7;text-align:right;flex-shrink:0;">${v}</span>
+        `;
+        barsEl.appendChild(row);
+    });
+    /* 바 애니메이션 */
+    requestAnimationFrame(() => {
+        document.querySelectorAll('.sc-bar-fill').forEach(el => {
+            el.style.width = el.dataset.val + '%';
+        });
+    });
+}
+
+/* 공유 함수 3종 */
+function copyCardText() {
+    const code = document.getElementById('emr-code').innerText.replace('#','');
+    const d = cardData[code];
+    if (!d) return;
+    const text = `나의 골반 건강 MBTI 결과: #${code}\n${d.emoji} ${d.name}\n${d.sub}\n\n${d.med}\n\n👉 나도 테스트해보기: ${SITE_URL}\n\n— <!--정읍한국병원--> 비뇨의학과 Pelvic Peace Project / © 2026 HYUN JOON MOON MD PhD`;
+    navigator.clipboard.writeText(text).then(() => alert('결과 텍스트가 복사되었습니다!\n카카오톡·문자에 바로 붙여넣기 하세요 😊'));
+}
+
+function shareKakao() {
+    const code = document.getElementById('emr-code').innerText.replace('#','');
+    const d = cardData[code];
+    if (!d) return;
+    alert(`카카오 SDK 연동 시 아래 내용으로 공유됩니다:\n\n"나의 PMTI는 ${d.emoji} ${d.name}(#${code})!\n너는 무슨 유형?\n→ ${SITE_URL}"`);
+}
+
+function copyShareLink() {
+    navigator.clipboard.writeText(SITE_URL).then(() => alert('링크가 복사되었습니다!\n친구에게 공유해보세요 🎉'));
+}
+
+/* ===== 기존 calculatePMTI ===== */
 function calculatePMTI(isAutoUpdate = false) {
     const consentChecked = document.getElementById('irb_consent').checked;
     const resultSection = document.getElementById('result-section');
@@ -223,6 +401,9 @@ function calculatePMTI(isAutoUpdate = false) {
     document.getElementById('res-title').innerText = result.title;
     document.getElementById('res-desc').innerText = result.desc + endingComment;
     document.getElementById('emr-code').innerText = "#" + resultType;
+
+    /* 공유 카드 자동 렌더 */
+    renderShareCard(resultType);
     
     resultSection.style.display = 'block';
     
