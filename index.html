@@ -24,10 +24,27 @@
 
         .question-box { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #FFE4E1; }
         .question-text { font-size: 15px; font-weight: bold; margin-bottom: 10px; word-break: keep-all; }
-        .radio-group { display: flex; gap: 15px; }
-        .radio-group label { background: #F8F8F8; padding: 10px 20px; border-radius: 10px; cursor: pointer; flex: 1; text-align: center; transition: 0.2s; border: 1px solid #EEE; }
+        .radio-group { display: flex; gap: 12px; }
+        .radio-group label {
+            background: #F8F8F8; padding: 13px 10px; border-radius: 12px;
+            cursor: pointer; flex: 1; text-align: center; transition: 0.2s;
+            border: 2px solid #EEE; font-size: 15px; font-weight: bold; color: #999;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .radio-group label:hover { border-color: #FF8C7A; color: #FF8C7A; background: #FFF5F2; }
         .radio-group input[type="radio"] { display: none; }
-        .radio-group input[type="radio"]:checked + label { background: #FF8C7A; color: white; border-color: #FF8C7A; font-weight: bold; }
+        .radio-group input[type="radio"]:checked + label {
+            background: #FF8C7A; color: white; border-color: #FF8C7A;
+            font-weight: bold; box-shadow: 0 4px 12px rgba(255,140,122,0.35);
+        }
+        /* 미답변 문항 강조 */
+        .question-box.unanswered .radio-group label {
+            border-color: #FFCCBC; animation: pulse-border 1s ease-in-out;
+        }
+        @keyframes pulse-border {
+            0%,100% { border-color: #FFCCBC; }
+            50% { border-color: #FF8C7A; }
+        }
         
         .submit-btn { background: #FF8C7A; color: white; border: none; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 12px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(255,140,122,0.3); transition: 0.3s; }
         .submit-btn:hover { background: #F07865; }
@@ -70,50 +87,50 @@
         <div class="question-box">
             <div class="question-text">1. 소변 줄기가 약하거나 다 본 후에도 시원하지 않은 잔뇨감이 남는다.</div>
             <div class="radio-group">
-                <input type="radio" id="q1_yes" name="q1" value="yes"><label for="q1_yes">그렇다</label>
-                <input type="radio" id="q1_no" name="q1" value="no" checked><label for="q1_no">아니다</label>
+                <input type="radio" id="q1_yes" name="q1" value="yes"><label for="q1_yes">✅ 그렇다</label>
+                <input type="radio" id="q1_no" name="q1" value="no"><label for="q1_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text">2. 소변을 시작할 때 한참 기다려야 하거나, 배에 힘을 꽉 주어야만 겨우 소변이 나온다.</div>
             <div class="radio-group">
-                <input type="radio" id="q2_yes" name="q2" value="yes"><label for="q2_yes">그렇다</label>
-                <input type="radio" id="q2_no" name="q2" value="no" checked><label for="q2_no">아니다</label>
+                <input type="radio" id="q2_yes" name="q2" value="yes"><label for="q2_yes">✅ 그렇다</label>
+                <input type="radio" id="q2_no" name="q2" value="no"><label for="q2_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text" style="color:#E74C3C;">3. 갑자기 소변이 마려워 참기 힘들거나, 화장실에 가기도 전에 찔끔 샌 적이 있다.</div>
             <div class="radio-group">
-                <input type="radio" id="q3_yes" name="q3" value="yes"><label for="q3_yes">그렇다</label>
-                <input type="radio" id="q3_no" name="q3" value="no" checked><label for="q3_no">아니다</label>
+                <input type="radio" id="q3_yes" name="q3" value="yes"><label for="q3_yes">✅ 그렇다</label>
+                <input type="radio" id="q3_no" name="q3" value="no"><label for="q3_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text">4. 대변이 딱딱하거나 토끼 똥처럼 나오며, 화장실에 오래 앉아 힘을 많이 주어야 한다.</div>
             <div class="radio-group">
-                <input type="radio" id="q4_yes" name="q4" value="yes"><label for="q4_yes">그렇다</label>
-                <input type="radio" id="q4_no" name="q4" value="no" checked><label for="q4_no">아니다</label>
+                <input type="radio" id="q4_yes" name="q4" value="yes"><label for="q4_yes">✅ 그렇다</label>
+                <input type="radio" id="q4_no" name="q4" value="no"><label for="q4_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text">5. 소변/대변 시 밑(항문/회음부)이 시원하게 안 열리고 꽉 막혀있는 듯한 뻐근함이 든다.</div>
             <div class="radio-group">
-                <input type="radio" id="q5_yes" name="q5" value="yes"><label for="q5_yes">그렇다</label>
-                <input type="radio" id="q5_no" name="q5" value="no" checked><label for="q5_no">아니다</label>
+                <input type="radio" id="q5_yes" name="q5" value="yes"><label for="q5_yes">✅ 그렇다</label>
+                <input type="radio" id="q5_no" name="q5" value="no"><label for="q5_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text">6. 최근 1년 내 방광염에 3번 이상 걸렸거나, 타 병원에서 항생제를 자주 처방받았다.</div>
             <div class="radio-group">
-                <input type="radio" id="q6_yes" name="q6" value="yes"><label for="q6_yes">그렇다</label>
-                <input type="radio" id="q6_no" name="q6" value="no" checked><label for="q6_no">아니다</label>
+                <input type="radio" id="q6_yes" name="q6" value="yes"><label for="q6_yes">✅ 그렇다</label>
+                <input type="radio" id="q6_no" name="q6" value="no"><label for="q6_no">❌ 아니다</label>
             </div>
         </div>
         <div class="question-box">
             <div class="question-text">7. 이러한 불편함을 '체질이려니', '피곤해서려니' 생각하며 병원 진료를 미루고 참아왔다.</div>
             <div class="radio-group">
-                <input type="radio" id="q7_yes" name="q7" value="yes"><label for="q7_yes">그렇다</label>
-                <input type="radio" id="q7_no" name="q7" value="no" checked><label for="q7_no">아니다</label>
+                <input type="radio" id="q7_yes" name="q7" value="yes"><label for="q7_yes">✅ 그렇다</label>
+                <input type="radio" id="q7_no" name="q7" value="no"><label for="q7_no">❌ 아니다</label>
             </div>
         </div>
 
@@ -223,7 +240,7 @@
     </div>
 
     <div class="clinic-footer">
-        <div class="project-name">'골반 건강 MBTI (PMTI - Pelvic Muscle Type Indicator)' Maple 프로젝트</div>
+        <div class="project-name">'골반 건강 MBTI (PMTI - Pelvic Muscle Type Indicator)' <br> Maple Korea : Pelvic Peace Project</div>
         <div>Pelvic Peace Project</div>
         <div class="doctor-name">© 2026 HYUN JOON MOON, MD, PhD</div>
     </div>
@@ -242,9 +259,9 @@
      → 내 애플리케이션 → 앱 키 → JavaScript 키
    플랫폼 등록: Web 도메인에 https://cccallcall.net 추가
    ─────────────────────────────────────────────── */
-const KAKAO_JS_KEY = '45546fd5be93dbf40d8fa9d1a2cefefd';
+const KAKAO_JS_KEY = 'YOUR_KAKAO_JS_KEY';
 try {
-    if (typeof Kakao !== 'undefined' && KAKAO_JS_KEY !== '45546fd5be93dbf40d8fa9d1a2cefefd') {
+    if (typeof Kakao !== 'undefined' && KAKAO_JS_KEY !== 'YOUR_KAKAO_JS_KEY') {
         Kakao.init(KAKAO_JS_KEY);
     }
 } catch(e) { console.warn('Kakao SDK init 오류:', e); }
@@ -271,7 +288,7 @@ setInterval(() => {
 }, 5000);
 
 /* ── 진단 결과 텍스트 (PMTI 24유형) ── */
-const endingComment = "\n\n가장 기초적인 소변배양검사와 혈액검사 및 X-Ray촬영, 즉석 요속검사와 간편 방광스캐너검사에 더하여, 만성환자들에겐 필수중요검사인 CT촬영 및 방광내시경 검사 등으로, 그동안 배뇨곤란으로 고통받던 많은 분들의 문제가 대부분 파악되고 있습니다.\n\n이제 본원의 전문적이며 단계적인 비뇨의학과 진료로 도움을 받게 되시기를 희망합니다.";
+const endingComment = "\n\n가장 기초적인 소변배양검사와 혈액검사 및 X-Ray촬영, 즉석 요속검사와 간편 방광스캐너검사에 더하여, 만성환자들에겐 필수중요검사인 CT촬영 및 방광내시경 검사 등으로, 그동안 배뇨곤란으로 고통받던 많은 분들의 문제가 대부분 파악되고 있습니다.\n\n이제 비뇨의학과에서의 단계적이고 전문적인 진료로 진정한 도움을 받게 되시기를 희망합니다.";
 
 const pmtiData = {
     "DTIP":{ title:"🌵 지친 사막의 선인장형", desc:"오랜 시간 참느라 고생 많으셨습니다. 잦은 방광염과 묵직한 잔뇨, 골반을 누르는 변비가 한 덩어리로 엉켜 당신을 지치게 하고 있네요. 혼자 견디지 마시고 방광스캐너 검사를 포함한 기초확인검사로 잔뇨량을 꼭 확인해 보세요." },
@@ -439,6 +456,20 @@ function calculatePMTI(isAutoUpdate) {
     if (!consentChecked) {
         if (!isAutoUpdate) alert("테스트 결과를 확인하려면 [연구 목적 데이터 활용 동의]가 필수입니다. 체크박스를 확인해 주세요.");
         else resultSection.style.display = 'none';
+        return;
+    }
+    /* 미답변 문항 체크 */
+    let allAnswered = true;
+    ['q1','q2','q3','q4','q5','q6','q7'].forEach(function(name) {
+        const box = document.querySelector('input[name="' + name + '"]').closest('.question-box');
+        if (!document.querySelector('input[name="' + name + '"]:checked')) {
+            allAnswered = false;
+            box.classList.add('unanswered');
+            setTimeout(function(){ box.classList.remove('unanswered'); }, 1200);
+        }
+    });
+    if (!allAnswered) {
+        if (!isAutoUpdate) alert('모든 문항에 답변해 주세요!\n선택하지 않은 문항이 있습니다. 🙏');
         return;
     }
     const val = function(name) { return document.querySelector('input[name="' + name + '"]:checked').value === 'yes'; };
