@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +11,7 @@
     <!-- 카카오 SDK -->
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <style>
-        body { font-family: 'Malgun Gothic', sans-serif; background-color: #FFF0F0; color: #4A4A4A; line-height: 1.6; margin: 0; padding: 20px; }
+        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background-color: #FFF0F0; color: #4A4A4A; line-height: 1.6; margin: 0; padding: 20px; word-break: keep-all; overflow-wrap: break-word; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(255,140,122,0.15); }
         
         #rolling-header { text-align: center; transition: opacity 0.6s ease-in-out; margin-bottom: 20px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
@@ -54,7 +55,7 @@
         
         #result-section { display: none; margin-top: 30px; padding: 25px; background: #FFF5F5; border-radius: 15px; border: 2px solid #FFDAB9; }
         .result-title { color: #E74C3C; font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 15px; }
-        .result-desc { font-size: 15px; color: #555; text-align: justify; word-break: keep-all; white-space: pre-line; }
+        .result-desc { font-size: 15px; color: #555; text-align: left; word-break: keep-all; overflow-wrap: break-word; word-spacing: normal; line-height: 1.75; white-space: pre-line; }
         
         .emr-box { margin-top: 25px; padding: 15px; background: white; border-radius: 10px; text-align: center; border: 1px solid #FF8C7A; }
         .emr-title { font-size: 12px; color: #888; margin-bottom: 5px; }
@@ -67,6 +68,59 @@
         .clinic-footer .project-name { font-weight: bold; color: #777; font-size: 13px; margin-bottom: 3px; }
         .clinic-footer .doctor-name { font-weight: bold; color: #FF8C7A; margin-top: 3px; font-size: 13px; }
     </style>
+
+    <!-- ═══ 소스 보호 (Source Protection) ═══
+         완전 차단은 불가능하나 일반 사용자 접근을 억제합니다.
+         개발자도구(F12)·우클릭·드래그·복사·단축키를 차단합니다. -->
+    <script>
+    (function() {
+        /* 1. 우클릭 차단 */
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        /* 2. 키보드 단축키 차단
+              F12 / Ctrl+U / Ctrl+S / Ctrl+Shift+I·J·C / Ctrl+A·C */
+        document.addEventListener('keydown', function(e) {
+            var blocked =
+                e.key === 'F12' ||
+                (e.ctrlKey && ['u','U','s','S'].includes(e.key)) ||
+                (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) ||
+                (e.ctrlKey && e.altKey);
+            if (blocked) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+
+        /* 3. 텍스트 드래그 선택 억제 (결과 영역) */
+        document.addEventListener('selectstart', function(e) {
+            /* 입력 폼 안쪽은 허용 */
+            if (e.target.closest && e.target.closest('form')) return true;
+            e.preventDefault();
+            return false;
+        });
+
+        /* 4. 개발자도구 감지 (크기 변화 기반, 휴리스틱) */
+        var devtoolsOpen = false;
+        var threshold = 160;
+        setInterval(function() {
+            var widthDiff  = window.outerWidth  - window.innerWidth;
+            var heightDiff = window.outerHeight - window.innerHeight;
+            if ((widthDiff > threshold || heightDiff > threshold) && !devtoolsOpen) {
+                devtoolsOpen = true;
+                /* 콘솔에 경고만 출력 (페이지 파괴 없이) */
+                console.clear();
+                console.log('%c🔒 이 페이지의 소스코드는 저작권법의 보호를 받습니다.\n© 2026 HYUN JOON MOON MD PhD / Pelvic Peace Project / Maple Korea', 'color:#FF8C7A; font-size:16px; font-weight:bold;');
+            }
+            if (widthDiff <= threshold && heightDiff <= threshold) {
+                devtoolsOpen = false;
+            }
+        }, 1000);
+    })();
+    </script>
 </head>
 <body>
 
@@ -191,7 +245,7 @@
                 </div>
 
                 <!-- 의학 코멘트 -->
-                <div style="position:relative;z-index:1;margin-top:14px;background:rgba(255,255,255,0.13);border-radius:10px;padding:11px 13px;font-size:11px;line-height:1.6;border-left:3px solid rgba(255,255,255,0.45);">
+                <div style="position:relative;z-index:1;margin-top:14px;background:rgba(255,255,255,0.13);border-radius:10px;padding:11px 13px;font-size:11px;line-height:1.7;text-align:left;word-break:keep-all;overflow-wrap:break-word;border-left:3px solid rgba(255,255,255,0.45);">
                     <span style="display:block;font-size:10px;opacity:.6;margin-bottom:3px;letter-spacing:.08em;">🏥 의학적 안내</span>
                     <span id="sc-med"></span>
                 </div>
@@ -241,7 +295,7 @@
 
     <div class="clinic-footer">
         <div class="project-name">'골반 건강 MBTI (PMTI - Pelvic Muscle Type Indicator)' <br> Maple Korea : Pelvic Peace Project</div>
-        <div>Pelvic Peace Project</div>
+       
         <div class="doctor-name">© 2026 HYUN JOON MOON, MD, PhD</div>
     </div>
 </div>
